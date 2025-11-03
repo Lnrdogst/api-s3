@@ -12,9 +12,12 @@ def lambda_handler(event, context):
     }
     
     try:
-        # Parsear el body JSON de la request
+        # Parsear el body JSON de la request - manejar tanto string como dict
         if 'body' in event and event['body']:
-            body = json.loads(event['body'])
+            if isinstance(event['body'], str):
+                body = json.loads(event['body'])
+            else:
+                body = event['body']  # Ya es un dict
         else:
             return {
                 'statusCode': 400,
